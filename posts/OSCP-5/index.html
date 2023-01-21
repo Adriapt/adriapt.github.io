@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="en" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="generator" content="Jekyll v4.2.2" /><meta property="og:title" content="OSCP-5: Bash Scripting" /><meta name="author" content="Adrià" /><meta property="og:locale" content="en" /><meta name="description" content="Chapter 5: Bash Scripting" /><meta property="og:description" content="Chapter 5: Bash Scripting" /><link rel="canonical" href="https://adriapt.github.io/posts/OSCP-5/" /><meta property="og:url" content="https://adriapt.github.io/posts/OSCP-5/" /><meta property="og:site_name" content="Adrià Pagès" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2022-07-16T08:10:00+02:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="OSCP-5: Bash Scripting" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Adrià"},"dateModified":"2022-07-24T20:47:02+02:00","datePublished":"2022-07-16T08:10:00+02:00","description":"Chapter 5: Bash Scripting","headline":"OSCP-5: Bash Scripting","mainEntityOfPage":{"@type":"WebPage","@id":"https://adriapt.github.io/posts/OSCP-5/"},"url":"https://adriapt.github.io/posts/OSCP-5/"}</script><title>OSCP-5: Bash Scripting | Adrià Pagès</title><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/site.webmanifest"><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico"><meta name="apple-mobile-web-app-title" content="Adrià Pagès"><meta name="application-name" content="Adrià Pagès"><meta name="msapplication-TileColor" content="#da532c"><meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://cdn.jsdelivr.net" ><link rel="dns-prefetch" href="https://cdn.jsdelivr.net" ><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css"><link rel="stylesheet" href="/assets/css/style.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1/dist/magnific-popup.min.css"> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get MODE_ATTR() { return "data-mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } static get ID() { return "mode-toggle"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } let self = this; /* always follow the system prefers */ this.sysDarkPrefers.addEventListener("change", () => { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.notify(); }); } /* constructor() */ get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; } get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer)) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } setDark() { $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_ATTR); sessionStorage.removeItem(ModeToggle.MODE_KEY); } /* Notify another plugins that the theme mode has changed */ notify() { window.postMessage({ direction: ModeToggle.ID, message: this.modeStatus }, "*"); } } /* ModeToggle */ const toggle = new ModeToggle(); function flipMode() { if (toggle.hasMode) { if (toggle.isSysDarkPrefer) { if (toggle.isLightMode) { toggle.clearMode(); } else { toggle.setLight(); } } else { if (toggle.isDarkMode) { toggle.clearMode(); } else { toggle.setDark(); } } } else { if (toggle.isSysDarkPrefer) { toggle.setLight(); } else { toggle.setDark(); } } toggle.notify(); } /* flipMode() */ </script><body data-spy="scroll" data-target="#toc" data-topbar-visible="true"><div id="sidebar" class="d-flex flex-column align-items-end"><div class="profile-wrapper text-center"><div id="avatar"> <a href="/" class="mx-auto"> <img src="/assets/img/profilepic.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="site-title mt-3"> <a href="/">Adrià Pagès</a></div><div class="site-subtitle font-italic">My knowledge Hub</div></div><ul class="w-100"><li class="nav-item"> <a href="/" class="nav-link"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item"> <a href="/categories/" class="nav-link"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item"> <a href="/tags/" class="nav-link"> <i class="fa-fw fas fa-tag ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item"> <a href="/archives/" class="nav-link"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item"> <a href="/about_me/" class="nav-link"> <i class="fa-fw fas fa-info-circle ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT ME</span> </a></ul><div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center align-items-center"> <button class="mode-toggle btn" aria-label="Switch Mode"> <i class="fas fa-adjust"></i> </button> <span class="icon-border"></span> <a href="https://github.com/Adriapt" aria-label="github" target="_blank" rel="noopener"> <i class="fab fa-github"></i> </a> <a href="https://twitter.com/" aria-label="twitter" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['adria.pagest','gmail.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper"><div id="topbar" class="container d-flex align-items-center justify-content-between h-100 pl-3 pr-3 pl-md-4 pr-md-4"> <span id="breadcrumb"> <span> <a href="/"> Home </a> </span> <span>OSCP-5: Bash Scripting</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="Search..."> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper" class="d-flex justify-content-center"><div id="main" class="container pl-xl-4 pr-xl-4"><div class="row"><div id="core-wrapper" class="col-12 col-lg-11 col-xl-9 pr-xl-4"><div class="post pl-1 pr-1 pl-md-2 pr-md-2"><h1 data-toc-skip>OSCP-5: Bash Scripting</h1><div class="post-meta text-muted"> <span> Posted <em class="" data-ts="1657951800" data-df="ll" data-toggle="tooltip" data-placement="bottom"> Jul 16, 2022 </em> </span> <span> Updated <em class="" data-ts="1658688422" data-df="ll" data-toggle="tooltip" data-placement="bottom"> Jul 24, 2022 </em> </span><div class="d-flex justify-content-between"> <span> By <em> Adrià Pagès Torruella </em> </span><div> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="1740 words"> <em>9 min</em> read</span></div></div></div><div class="post-content"><h1 id="chapter-5-bash-scripting">Chapter 5: Bash Scripting</h1><hr /><p>Learning to write scripts in Bash is really important for automatizing tasks. A Bash Script is a file that contains commands and they will be executed as if they had been typed directly at a terminal prompt.</p><p>A bash script starts with <code class="language-plaintext highlighter-rouge">#!/bin/bash</code>:</p><ul><li><strong>#!</strong>: This is the <strong>shebang</strong>, it is ignored by the Bash interpreter but when the file is used as an executable, the loader executes the specified interpreter passing the contents as an argument.<li><strong>/bin/bash</strong>: This is the absolute path to the interpreter that will run the script.</ul><p>Then we would add all the bash commands that we want to execute.</p><h2 id="variables"><span class="mr-2">Variables</span><a href="#variables" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>I won’t get into much detail about what is a variable since if you have basic programming knowledge you know what’s their usage. When using Bash, a variable can be declared in different ways, but the easier way is using the <code class="language-plaintext highlighter-rouge">=</code> sign, for example:</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>❯ <span class="nv">variable</span><span class="o">=</span>TEST
+</pre></table></code></div></div><p>It’s important to mention that <strong>there are not</strong> any spaces between the sign.</p><p>When we want to reference (expand) a variable we need to precede the name of the variable with the <code class="language-plaintext highlighter-rouge">$</code> sign:</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>❯ <span class="nb">echo </span>variable
+variable
+❯ <span class="nb">echo</span> <span class="nv">$variable</span>
+TEST
+</pre></table></code></div></div><p>If we want to declare variables in a multi-value way, we need to enclose the content using single quotes (<code class="language-plaintext highlighter-rouge">'</code>) or double quotes (<code class="language-plaintext highlighter-rouge">"</code>). However, Bash treats them differently:</p><ul><li>Single quotes: All characters are interpreted literally.<li>Double Quotes: All characters are interpreted literally except from <code class="language-plaintext highlighter-rouge">$</code>, <code class="language-plaintext highlighter-rouge">`</code> and <code class="language-plaintext highlighter-rouge">\</code>, meaning that we can expand variables when declaring another variable. In the next example we can see the difference:<div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre>❯ <span class="nb">test</span><span class="o">=</span>World
+❯ <span class="nv">single</span><span class="o">=</span><span class="s1">'Hello $test'</span>
+❯ <span class="nb">echo</span> <span class="nv">$single</span>
+Hello <span class="nv">$test</span>
+❯ <span class="nv">double</span><span class="o">=</span><span class="s2">"Hello </span><span class="nv">$test</span><span class="s2">"</span>
+❯ <span class="nb">echo</span> <span class="nv">$double</span>
+Hello World
+</pre></table></code></div></div><p>Another interesting thing that we can do is to assing to a variable the output of another command. To do this we need to use parentheses (<code class="language-plaintext highlighter-rouge">()</code>) preceded by a <code class="language-plaintext highlighter-rouge">$</code>. Alternatively we can use <code class="language-plaintext highlighter-rouge">`</code>. This changes are made in a subshell, so they won’t change the values in the master process unles we directly assign them.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>❯ <span class="nb">test</span><span class="o">=</span><span class="si">$(</span><span class="nb">whoami</span><span class="si">)</span>
+❯ <span class="nb">echo</span> <span class="nv">$test</span>
+adri
+❯ <span class="si">$(</span><span class="nb">test</span><span class="o">=</span>changed<span class="si">)</span>
+❯ <span class="nb">echo</span> <span class="nv">$test</span>
+adri
+</pre></table></code></div></div></ul><h2 id="arguments"><span class="mr-2">Arguments</span><a href="#arguments" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>When creating a script, you can work with arguments passed when the script is executed. Inside the script we can use several variables that can be really useful:</p><div class="table-wrapper"><table><thead><tr><th>Variable Name<th>Description<tbody><tr><td>$0<td>The name of the Bash script<tr><td>$1-$9<td>The first 9 arguments passed to the Bash script<tr><td>$#<td>Number of arguments passed to the Bash script<tr><td>$@<td>All arguments passed to the Bash script<tr><td>$?<td>The exit status of the last executed run process<tr><td>$$<td>The process ID of the current script<tr><td>$USER<td>The username of the user running the script<tr><td>$HOSTNAME<td>The hostname of the machine<tr><td>$RANDOM<td>A random number<tr><td>$LINENO<td>The current line number in the script</table></div><h3 id="interactive-user-input"><span class="mr-2">Interactive User Input</span><a href="#interactive-user-input" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>We can read input that the user provide in an interactive way. To do this, we will use the <code class="language-plaintext highlighter-rouge">read</code> command. The read input can be used along with the <strong>-p and -s</strong> options. The first one allows you to specify a prompt and the last one makes the input silent (useful for passwords).</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre><td class="rouge-code"><pre>❯ <span class="nb">cat </span>test.sh
+───────┬─────────────────────────────────────────────────────────────────
+       │ File: test.sh
+───────┼─────────────────────────────────────────────────────────────────
+   1   │ <span class="c">#!/bin/bash</span>
+   2   │ 
+   3   │ <span class="nb">echo</span> <span class="s2">"Hello, please enter the username and password"</span>
+   4   │ 
+   5   │ <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"Username: "</span> usname
+   6   │ <span class="nb">read</span> <span class="nt">-sp</span> <span class="s2">"Password: "</span> password
+   7   │ 
+   8   │ <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">Hello </span><span class="nv">$usname</span><span class="s2"> with this password: </span><span class="nv">$password</span><span class="s2">"</span>
+   9   │ 
+  10   │ 
+───────┴─────────────────────────────────────────────────────────────────
+❯ ./test.sh
+Hello, please enter the username and password
+Username: Adri
+Password: 
+Hello Adri with this password: SuperSecret
+</pre></table></code></div></div><h2 id="if-else-elif"><span class="mr-2">If, Else, Elif</span><a href="#if-else-elif" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>When doing bash scripts we can also use conditionals.</p><p>The <strong>if</strong> statement is easy to understand, but it has a specific syntax:</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>if [ &lt;evaluation&gt; ]
+then
+  &lt;tasks to perform&gt;
+fi
+</pre></table></code></div></div><p>If the <strong>evaluation</strong> is <code class="language-plaintext highlighter-rouge">true</code>, then the script will execute the <strong>tasks to perform</strong> between the <code class="language-plaintext highlighter-rouge">then</code> and <code class="language-plaintext highlighter-rouge">fi</code>.</p><p>The square brackets (<code class="language-plaintext highlighter-rouge">[ ]</code>) in the if statement are a reference to the <strong>test</strong> command, so we can use operators allowed by this command:</p><div class="table-wrapper"><table><thead><tr><th>Operator<th>Expression True if…<tbody><tr><td>!EXPRESSION<td>The EXPRESSION is false.<tr><td>-n STRING<td>STRING length is greater than zero<tr><td>-z STRING<td>The length of STRING is zero (empty)<tr><td>STRING1 != STRING2<td>STRING1 is not equal to STRING2<tr><td>STRING1 = STRING2<td>STRING1 is equal to STRING2<tr><td>INTEGER1 -eq INTEGER2<td>INTEGER1 is equal to INTEGER2<tr><td>INTEGER1 -ne INTEGER2<td>INTEGER1 is not equal to INTEGER2<tr><td>INTEGER1 -gt INTEGER2<td>INTEGER1 is greater than INTEGER2<tr><td>INTEGER1 -lt INTEGER2<td>INTEGER1 is less than INTEGER2<tr><td>INTEGER1 -ge INTEGER2<td>INTEGER1 is greater than or equal to INTEGER 2<tr><td>INTEGER1 -le INTEGER2<td>INTEGER1 is less than or equal to INTEGER 2<tr><td>-d FILE<td>FILE exists and is a directory<tr><td>-e FILE<td>FILE exists<tr><td>-r FILE<td>FILE exists and has read permission<tr><td>-s FILE<td>FILE exists and it is not empty<tr><td>-w FILE<td>FILE exists and has write permission<tr><td>-x FILE<td>FILE exists and has execute permission</table></div><p>We can also define a set of actions to be executed whrn the statement is false using <strong>else</strong>:</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>if [ &lt;test&gt; ]
+then 
+  &lt;actions to do when true&gt;
+else 
+  &lt;actions to do when false&gt;
+fi
+</pre></table></code></div></div><p>The if and else statements only allow two code execution branches. We can add additional branches with the elif statement.</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre>if [ &lt;test&gt; ]
+then 
+  &lt;actions to do when true&gt;
+elif [ &lt;another test&gt; ]
+then
+  &lt;actions to do when 2nd test is true&gt;
+else
+  &lt;actions to do when both tests are false&gt;
+fi
+</pre></table></code></div></div><h2 id="boolean-and-logical-operations"><span class="mr-2">Boolean and Logical Operations</span><a href="#boolean-and-logical-operations" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>The <strong>AND</strong> (<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>) operator executes a command only if the previous one succeeds, returns true or 0. The <strong>OR</strong> (<code class="language-plaintext highlighter-rouge">||</code>) operator executes a command only if the previous one fails, returns false or none 0. In the next example we can see a usage of them:</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>❯ <span class="nb">echo</span> <span class="nv">$usertest</span>
+adritest
+❯ <span class="nb">grep</span> <span class="nv">$usertest</span> /etc/passwd <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$usertest</span><span class="s2"> exists!"</span> <span class="o">||</span> <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$usertest</span><span class="s2">"</span> doesn<span class="s1">'t exist!"
+adritest doesn'</span>t exist!
+</pre></table></code></div></div><p>This opperators can also be used in a test to compare values or test results. When using them like this, <strong>AND</strong> is true when both conditions are true. However, <strong>OR</strong> is true when at least one is true.</p><h2 id="loops"><span class="mr-2">Loops</span><a href="#loops" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>We can create loops using <strong>for</strong> or <strong>while</strong>.</p><h3 id="for"><span class="mr-2">For</span><a href="#for" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>The syntax of a for loop looks like this:</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="k">for </span>variable <span class="k">in</span> &lt;list&gt;
+<span class="k">do</span>
+  &lt;actions to perform&gt;
+<span class="k">done</span>
+</pre></table></code></div></div><p>The loop will iterate over the <strong>list</strong> and in each iteration it will assign the item to the <strong>variable</strong> and then perform the actions defined between the <strong>do</strong> and <strong>done</strong>. It will do this until the list is exhausted. We can create a list doing another command inside the parentheses preceded by the <code class="language-plaintext highlighter-rouge">$</code>, reading files, using brace expansion (<code class="language-plaintext highlighter-rouge">{1..10}</code>), etc.:</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre>❯ for iter in $(seq 1 5); do echo $iter; done
+1
+2
+3
+4
+5
+❯ for iter in {1..5}; do echo $iter; done
+1
+2
+3
+4
+5
+</pre></table></code></div></div><h3 id="while"><span class="mr-2">While</span><a href="#while" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>While loops execute some actions while the expression is true. They use the square brackets (<code class="language-plaintext highlighter-rouge">[]</code>) for the tests.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="k">while</span> <span class="o">[</span> &lt;<span class="nb">test</span><span class="o">&gt;</span> <span class="o">]</span>
+<span class="k">do</span> 
+  &lt;action to perform&gt;
+<span class="k">done</span>
+</pre></table></code></div></div><p>In order to do the same example we used for the <strong>for</strong> loops, we need to define a counter variable. We are going to use the double parenthesis <code class="language-plaintext highlighter-rouge">(( ))</code> to perform an arithmetic expansion and evaluation at the same time:</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre><td class="rouge-code"><pre>❯ <span class="nb">cat </span>test.sh
+───────┬─────────────────────────────────────────────────────────────────
+       │ File: test.sh
+───────┼─────────────────────────────────────────────────────────────────
+   1   │ <span class="c">#!/bin/bash</span>
+   2   │ 
+   3   │ <span class="nv">counter</span><span class="o">=</span>1
+   4   │ 
+   5   │ <span class="k">while</span> <span class="o">[</span> <span class="nv">$counter</span> <span class="nt">-le</span> 5 <span class="o">]</span>
+   6   │ <span class="k">do
+   </span>7   │    <span class="nb">echo</span> <span class="nv">$counter</span>
+   8   │    <span class="o">((</span>counter++<span class="o">))</span>
+   9   │ <span class="k">done
+  </span>10   │ 
+───────┴─────────────────────────────────────────────────────────────────
+❯ ./test.sh
+1
+2
+3
+4
+5
+</pre></table></code></div></div><h2 id="functions"><span class="mr-2">Functions</span><a href="#functions" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>Last but not least, we can also define functions inside bash scripts. They are useful when we want to perform the same action multiple times. They may be written in two different formats:</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="k">function </span>function_name <span class="o">{</span>
+&lt;actions to perform&gt;
+<span class="o">}</span>
+
+function_name<span class="o">()</span> <span class="o">{</span>
+&lt;actions to perform&gt;
+<span class="o">}</span>
+</pre></table></code></div></div><p>As in other programming languages, functions can accept arguments, however, we don’t need to define them (we can access to them using the $1, $2… variables. Let’s create an example:</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre><td class="rouge-code"><pre>❯ <span class="nb">cat </span>test.sh
+───────┬─────────────────────────────────────────────────────────────────
+       │ File: test.sh
+───────┼─────────────────────────────────────────────────────────────────
+   1   │ <span class="c">#!/bin/bash</span>
+   2   │ 
+   3   │ function_with_args<span class="o">()</span> <span class="o">{</span>
+   4   │  <span class="nb">echo</span> <span class="s2">"The argument passed to this function is </span><span class="nv">$1</span><span class="s2">"</span>
+   5   │ <span class="o">}</span>
+   6   │ 
+   7   │ function_with_args 1111
+   8   │  
+───────┴─────────────────────────────────────────────────────────────────
+❯ ./test.sh
+The argument passed to this <span class="k">function </span>is 1111
+</pre></table></code></div></div><p>Bash functions can also return values. They return an exit status (0 for success and non-zero for failure) and they can return an arbitary value using the <code class="language-plaintext highlighter-rouge">$?</code> global variable. However, we can set global variables in order to simulate a traditional return.</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre><td class="rouge-code"><pre>❯ <span class="nb">cat </span>test.sh
+───────┬─────────────────────────────────────────────────────────────────
+       │ File: test.sh
+───────┼─────────────────────────────────────────────────────────────────
+   1   │ <span class="c">#!/bin/bash</span>
+   2   │ 
+   3   │ i_love_24<span class="o">()</span> <span class="o">{</span>
+   4   │  <span class="k">return </span>24
+   5   │ <span class="o">}</span>
+   6   │ 
+   7   │ i_love_24
+   8   │ <span class="nb">echo</span> <span class="s2">"Wow, the previous function returned </span><span class="nv">$?</span><span class="s2">, unexpected!"</span>
+───────┴─────────────────────────────────────────────────────────────────
+❯ ./test.sh
+Wow, the previous <span class="k">function </span>returned 24, unexpected!
+</pre></table></code></div></div><p>A <strong>global</strong> variable can be accessed everywhere in the code, however a <strong>local</strong> variable can only be seen within the function, block of code or subshell. It is possible to overlay a global variable by re-declaring it preceded with <strong>local</strong> keyword, leaving the global variable untouched:</p><div class="language-shell highlighter-rouge"><div class="code-header"> <span data-label-text="Shell"><i class="fas fa-code small"></i></span> <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre>❯ <span class="nb">cat </span>test.sh
+───────┬─────────────────────────────────────────────────────────────────
+       │ File: test.sh
+───────┼─────────────────────────────────────────────────────────────────
+   1   │ <span class="c">#!/bin/bash</span>
+   2   │ <span class="nv">name</span><span class="o">=</span><span class="s2">"Adri"</span>
+   3   │ <span class="nb">test</span><span class="o">()</span> <span class="o">{</span>
+   4   │  <span class="nb">local </span><span class="nv">name</span><span class="o">=</span><span class="s2">"Local Adri"</span>
+   5   │  <span class="nb">echo</span> <span class="s2">"The name inside the function is: </span><span class="nv">$name</span><span class="s2">"</span>
+   6   │ <span class="o">}</span>
+   7   │ <span class="nb">test
+   </span>8   │ <span class="nb">echo</span> <span class="s2">"The name outside the function is: </span><span class="nv">$name</span><span class="s2">"</span>
+───────┴─────────────────────────────────────────────────────────────────
+❯ ./test.sh
+The name inside the <span class="k">function </span>is: Local Adri
+The name outside the <span class="k">function </span>is: Adri
+</pre></table></code></div></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/oscp-study-guide/'>OSCP-Study-Guide</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/oscp-bash/" class="post-tag no-text-decoration" >OSCP Bash</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0 </a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=OSCP-5%3A+Bash+Scripting+-+Adri%C3%A0+Pag%C3%A8s&url=https%3A%2F%2Fadriapt.github.io%2Fposts%2FOSCP-5%2F" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=OSCP-5%3A+Bash+Scripting+-+Adri%C3%A0+Pag%C3%A8s&u=https%3A%2F%2Fadriapt.github.io%2Fposts%2FOSCP-5%2F" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://t.me/share/url?url=https%3A%2F%2Fadriapt.github.io%2Fposts%2FOSCP-5%2F&text=OSCP-5%3A+Bash+Scripting+-+Adri%C3%A0+Pag%C3%A8s" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i id="copy-link" class="fa-fw fas fa-link small" data-toggle="tooltip" data-placement="top" title="Copy link" data-title-succeed="Link copied successfully!"> </i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted"><div class="access"><div id="access-lastmod" class="post"><div class="panel-heading">Recently Updated</div><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/CySA/">CySA+ Preparation Content</a><li><a href="/posts/HTB_Timelapse/">Htb_timelapse</a><li><a href="/posts/wellcome/">Welcome</a><li><a href="/posts/OSCP-Starting/">OSCP-Starting Point</a><li><a href="/posts/OSCP-9/">OSCP-9: Web-based Vulnerabilities</a></ul></div><div id="access-tags"><div class="panel-heading">Trending Tags</div><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/oscp/">OSCP</a> <a class="post-tag" href="/tags/active-directory/">Active_Directory</a> <a class="post-tag" href="/tags/basics/">Basics</a> <a class="post-tag" href="/tags/oscp-bash/">OSCP Bash</a> <a class="post-tag" href="/tags/windows/">Windows</a></div></div></div><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.js"></script><div id="toc-wrapper" class="pl-0 pr-4 mb-5"><div class="panel-heading pl-3 pt-2 mb-2">Contents</div><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 pl-3 pr-3 pr-xl-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/OSCP-Starting/"><div class="card-body"> <em class="small" data-ts="1657951800" data-df="ll" > Jul 16, 2022 </em><h3 class="pt-0 mt-1 mb-3" data-toc-skip>OSCP-Starting Point</h3><div class="text-muted small"><p> OSCP STUDY WALKTHROUGH Edit: I was studying for the OSCP but I started a new job as a Security Analyst. Since this certification requires a lot of study and time, I decided to stop and invest tha...</p></div></div></a></div><div class="card"> <a href="/posts/OSCP-6/"><div class="card-body"> <em class="small" data-ts="1658211000" data-df="ll" > Jul 19, 2022 </em><h3 class="pt-0 mt-1 mb-3" data-toc-skip>OSCP-6: Passive Information Gathering</h3><div class="text-muted small"><p> Chapter 6: Passive Information Gathering Depending on the pentest that you are doing, the first step may be gathering openly available information about the target without directly interacting wi...</p></div></div></a></div><div class="card"> <a href="/posts/OSCP-7/"><div class="card-body"> <em class="small" data-ts="1658383800" data-df="ll" > Jul 21, 2022 </em><h3 class="pt-0 mt-1 mb-3" data-toc-skip>OSCP-7: Active Information Gathering</h3><div class="text-muted small"><p> Chapter 7: Active Information Gathering In the previous post we explored some ways to obtain information about a user without directly interacting with him, but in this post we will explore the m...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/OSCP-Starting/" class="btn btn-outline-primary" prompt="Older"><p>OSCP-Starting Point</p></a> <a href="/posts/OSCP-6/" class="btn btn-outline-primary" prompt="Newer"><p>OSCP-6: Passive Information Gathering</p></a></div></div></div><footer class="row pl-3 pr-3"><div class="col-12 d-flex justify-content-between align-items-center text-muted pl-0 pr-0"><div class="footer-left"><p class="mb-0"> © 2023 <a href="">Adrià Pagès Torruella</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-sm-11 post-content"><div id="search-hints"><div id="access-tags"><div class="panel-heading">Trending Tags</div><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/oscp/">OSCP</a> <a class="post-tag" href="/tags/active-directory/">Active_Directory</a> <a class="post-tag" href="/tags/basics/">Basics</a> <a class="post-tag" href="/tags/oscp-bash/">OSCP Bash</a> <a class="post-tag" href="/tags/windows/">Windows</a></div></div></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a><div id="notification" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-animation="true" data-autohide="false"><div class="toast-header"> <button type="button" class="ml-2 ml-auto close" data-dismiss="toast" aria-label="Close"> <span aria-hidden="true">&times;</span> </button></div><div class="toast-body text-center pt-0"><p class="pl-2 pr-2 mb-3">A new version of content is available.</p><button type="button" class="btn btn-primary" aria-label="Update"> Update </button></div></div><script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"> {categories} {tags}</div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No results found.</p>', templateMiddleware: function(prop, value, template) { if (prop === 'categories') { if (value === '') { return `${value}`; } else { return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`; } } if (prop === 'tags') { if (value === '') { return `${value}`; } else { return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`; } } } }); </script> <script src="https://cdn.jsdelivr.net/combine/npm/magnific-popup@1/dist/jquery.magnific-popup.min.js,npm/lozad/dist/lozad.min.js,npm/clipboard@2/dist/clipboard.min.js"></script> <script src="https://cdn.jsdelivr.net/combine/npm/dayjs@1/dayjs.min.js,npm/dayjs@1/locale/en.min.js,npm/dayjs@1/plugin/relativeTime.min.js,npm/dayjs@1/plugin/localizedFormat.min.js"></script> <script defer src="/assets/js/dist/post.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.bundle.min.js"></script> <script defer src="/app.js"></script>

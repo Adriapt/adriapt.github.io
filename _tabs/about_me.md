@@ -25,7 +25,7 @@ I love learning as much as I love transmitting this knowledge. I helped young st
 ![Book](/img/aboutme/open-book.png){: width="65" height="245" stylr="max-width: 200px" .left}
 # Studies
 ***
-- ## **SINCE 2022:** Autonomous Learning
+- ## **Since 2022:** Autonomous Learning
 When I finished my career, I started to study the OSCP certification. However, since I got a job as a Security Analyst, I decided to stop with the OSCP and started to study the CySA+ certification. 
 
 - ## **2018 - 2022:** University ([Facultat Informàtica de Barcelona - UPC](https://www.fib.upc.edu/ca))

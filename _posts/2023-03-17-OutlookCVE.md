@@ -38,7 +38,10 @@ The main problem with this exploit is that the victim doesn't have to interact o
 
 Since the attacker can craft the email as desired, several properties can be modified. This exploit uses "**PidLidReminderFileParameter**" property of the appointment object to include the UNC path. But what is this property?
 We can check microsoft official documentation of [this property](https://learn.microsoft.com/en-us/office/client-developer/outlook/mapi/pidlidreminderfileparameter-canonical-property). As we can see, this property specifies the filename of the file that contains the sound that the client should play when that object becomes overdue. 
-You may be wondering: *Why the sender can specify the sound that the receiver will listen to?* I don't understand it either :).
+You may be wondering: 
+*Why the sender can specify the sound that the receiver will listen to?* 
+
+I don't understand it either :).
 
 The attacker just has to set the **PidLidReminderFileParameter** with a UNC path that references the controlled server. When the appointment is overdue, the client will search for the sound file and since it points to a remote server, it will try to connect there using SMB, hence it will use the hashes to autenticate and the attacker can steal them. 
 
@@ -47,4 +50,6 @@ The attacker just has to set the **PidLidReminderFileParameter** with a UNC path
 The attacker can send appointments for a past date in order to trigger the alarm directly upon opening the e-mail. 
 
 Microsoft has already provided a [patch](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2023-23397) to solve this vulnerability.
+
+Be aware!
 

@@ -17,7 +17,7 @@ In this post I want to explain how this vulnerability works and how it can be ex
 
 ## NTLM 
 
-Is it important to understand what is the NT Lan Manager and how it is used. You can read more about it in [this part](https://adriapt.github.io/posts/active-directory/#ntlm-authentication) of this other post. 
+It is important to understand what is the NT Lan Manager and how it is used. You can read more about it in [this part](https://adriapt.github.io/posts/active-directory/#ntlm-authentication) of this other post. 
 Summing it up, NTLM is a Microsoft authentication protocol used to authenticate users in a Windows network. It is used to verify the identity of users attempting to access resources on a local network or over the internet. NTLM works by using a challenge-response mechanism, where a user's hashed credentials are sent to a server and verified. Once verified, the user is granted access to the resources they are requesting.
 
 ## How does it work?

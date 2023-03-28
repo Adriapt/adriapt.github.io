@@ -32,10 +32,11 @@ When I finished my career, I started to study the OSCP certification. However, s
 I have a computer science university degree in UPC, with a specialization in Information and Communications Technology (IT). 
 I got a GPA of 8,3 with honors mentions in: 
 	- Operating Systems Administration
-	- Programming Project 
+	- Programming Project
+	- Thesis
 
 - ## **2016 - 2018:** High School (Jesuïtes CASP, Sagrat cor de Jesús)
-I studied a Scientific *Bachillerato* with a GPA of 8,96 and a 12,21 out of 14 in my PAU (University Access Exam).
+I did a Scientific *High School (Bachillerato)* with a GPA of 8,96 and a 12,21 out of 14 in my PAU (University Access Exam).
 
 ![Map](/img/aboutme/mapa.png){: width="65" height="245" stylr="max-width: 200px" .left}
 # Erasmus
@@ -49,37 +50,18 @@ I had the opportunity to take some Masters courses like:
 
 
 ![Skills](/img/aboutme/pencil.png){: width="65" height="245" stylr="max-width: 200px" .left}
-# Professional Skills
+# Hard Skills
 ***
- - **Operating Systems**: I have mainly worked on Linux and its distributions like Ubuntu, Arch or Kali. I've also worked with MacOS and Windows. 
- - **Programming Languages:**
-	During my university degree I have worked with:
-	- C++	
-	- Golang
-	- Python
-	- C
-	- Java 
-	- HTML
-	- CSS 
-	- Bash
-	- LaTex
-	- x86
-	- SQL
-	- ERLANG
- - **Front-End Frameworks:**
-	- React
-- **Other:**
-	- Burp Suite
-	- Metasploit
-	- Markdown language
-	- git
-
+ - Penetration testing software like metasploit, burpsuite and tools like nmap, sqlmap, wfuzz, etc. Used not only in in practice enviroments but with real targets when performing penetration test assesments. 
+ - Can create my own scripts using python and bash to automate repetitive tasks
+ - I created full-stack apps, using Golang as the backend language and React as the frontend framework to create a user friendly application for performing penetration tests.  
+ - Learning machine learning & NLP concepts in my free time. My notes about it can be found [here](https://adriapt.github.io/categories/machine-learning/) 
 
 ![Personal](/img/aboutme/dart.png){: width="65" height="245" stylr="max-width: 200px" .left}
 # Personal Skills
 ***
 - Hard working
-- Autonomous Learner and Quick Learner
+- Self-directed learner who can quickly adapt to new technologies and concepts
 - Friendly and Communicative
 - Self Organized
 - Good at team-working

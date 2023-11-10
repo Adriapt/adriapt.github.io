@@ -10,7 +10,7 @@ render_with_liquid: false
 
 # Race Conditions
 
-![Title](/img/posts/RaceCondition/Race.png)
+![Title](/img/posts/RaceConditions/Race.png)
 
 When a website has to handle concurrent requests at the same time, they use different threads so they can execute them in parallel. These threads interact with the same database and if the code isn’t developed thinking about concurrency risks, race conditions arise. 
 
@@ -33,27 +33,27 @@ Lets use WebSecurityAcademy’s labs to examplify it.
 
 This website allows us to use the `PROMO20` discount code. If we try to use it more than one time, we get an error message: 
 
-![Untitled](/img/posts/RaceCondition/Untitled.png)
+![Untitled](/img/posts/RaceConditions/Untitled.png)
 
 So let’s assume that the web app controls somehow whether the coupon has been used or not. But, what if we could send two or more concurrent requests at the same time (within the **race window** span time)? 
 
 Let’s use Burp Suite for this. We will use the proxy and capture the `POST` request that is triggered when trying to apply the coupon. Then we will send it to the Repeater several times (7 in my example). In the Repeater we will create a group (clicking on the `+` icon) and we will add all the requests in the same group. 
 
-![Untitled](/img/posts/RaceCondition/Untitled%201.png)
+![Untitled](/img/posts/RaceConditions/Untitled%201.png)
 
 Burp Suite makes sending the packets in parallel super easy. We just need to click on de arrow next to the “Send” and use the “Send group in parallel”. It will try to use the single-packet attack if the connection is using HTTP/2. 
 
-![Untitled](//img/posts/RaceCondition/Untitled%202.png)
+![Untitled](//img/posts/RaceConditions/Untitled%202.png)
 
 If we check the response for each request, we can see that the coupon has been applied more than one time, implying that we have been able to exploit this race condition vulnerability: 
 
-![Untitled](/img/posts/RaceCondition/Untitled%203.png)
+![Untitled](/img/posts/RaceConditions/Untitled%203.png)
 
-![Untitled](/img/posts/RaceCondition/Untitled%204.png)
+![Untitled](/img/posts/RaceConditions/Untitled%204.png)
 
 If pause the proxy and go back to the webpage, we can see that now the moni reduced is much higher than when we applied just one coupon (To solve the lab i had to repeat the attack using more concurrent requests to get a higher discount). 
 
-![Untitled](/img/posts/RaceCondition/Untitled%205.png)
+![Untitled](/img/posts/RaceConditions/Untitled%205.png)
 
 
 > If you want to do a more complex attack or send more requests, you can use the Turbo Intruder extension with [this](https://github.com/PortSwigger/turbo-intruder/blob/master/resources/examples/race-single-packet-attack.py) python script
@@ -67,7 +67,7 @@ Let’s use another lab as an example (it uses the same shopping webpage):
 
 Here we can see that we have some credit (100$), a Cart with a value total value of 10$ and the option to add a coupon (we won’t interact with coupons for this lab) or proceed with the payment.
 
-![Untitled](/img/posts/RaceCondition/Untitled%206.png)
+![Untitled](/img/posts/RaceConditions/Untitled%206.png)
 
 The expected flow should be something like this: 
 
@@ -100,20 +100,20 @@ This means that we have to capture the requests that adds an item to the cart an
 
 1. I have a Cart with items that I can afford, so I click to the “Place order” and capture the request. I will send it to Burp Repeater (Ctrl + R) and drop de request, since I don’t want the server to process the order yet. 
 
-![Untitled](/img/posts/RaceCondition/Untitled%207.png)
+![Untitled](/img/posts/RaceConditions/Untitled%207.png)
 
 1. Now I will go to the shop and “Add to cart” a expensive item that I can’t afford. I will also capture the request, send it to repeater and drop it. It is important to drop the request since otherwise it will be added to the cart now and we need it to be added inside the “race window”
 
-![Untitled](/img/posts/RaceCondition/Untitled%208.png)
+![Untitled](/img/posts/RaceConditions/Untitled%208.png)
 
 1. In the repeater tab, I duplicated the requests so the chances that one of them is executed within the race window from the other are higher. As explained in the previous example, we will group all these requests and send them in parallel.  
     
-    ![Untitled](/img/posts/RaceCondition/Untitled%209.png)
+    ![Untitled](/img/posts/RaceConditions/Untitled%209.png)
     
 2. Now that the attack has been executed, lets check the responses and search for 200 response codes. 
     
-    ![Untitled](/img/posts/RaceCondition/Untitled%2010.png)
+    ![Untitled](/img/posts/RaceConditions/Untitled%2010.png)
     
 3. If we analyze this answer in the browser, we can see that we have been able to add to the cart 3 Jackets within the race window, so we exploited a multi endpoint race condition!
 
-![Untitled](/img/posts/RaceCondition/Untitled%2011.png)
+![Untitled](/img/posts/RaceConditions/Untitled%2011.png)

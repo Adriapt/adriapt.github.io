@@ -98,22 +98,22 @@ However, if we want to add a new item in the cart, we need to use another endpoi
 
 This means that we have to capture the requests that adds an item to the cart and the request that requests the server to process the order. We want to do this with a initial cart with a low price, so when the server checks if we have enough money, it returns true. Lets do it!
 
-1. I have a Cart with items that I can afford, so I click to the “Place order” and capture the request. I will send it to Burp Repeater (Ctrl + R) and drop de request, since I don’t want the server to process the order yet. 
+- I have a Cart with items that I can afford, so I click to the “Place order” and capture the request. I will send it to Burp Repeater (Ctrl + R) and drop de request, since I don’t want the server to process the order yet. 
 
 ![Untitled](/img/posts/RaceConditions/Untitled%207.png)
 
-2. Now I will go to the shop and “Add to cart” a expensive item that I can’t afford. I will also capture the request, send it to repeater and drop it. It is important to drop the request since otherwise it will be added to the cart now and we need it to be added inside the “race window”
+- Now I will go to the shop and “Add to cart” a expensive item that I can’t afford. I will also capture the request, send it to repeater and drop it. It is important to drop the request since otherwise it will be added to the cart now and we need it to be added inside the “race window”
 
 ![Untitled](/img/posts/RaceConditions/Untitled%208.png)
 
-3. In the repeater tab, I duplicated the requests so the chances that one of them is executed within the race window from the other are higher. As explained in the previous example, we will group all these requests and send them in parallel.  
+- In the repeater tab, I duplicated the requests so the chances that one of them is executed within the race window from the other are higher. As explained in the previous example, we will group all these requests and send them in parallel.  
     
     ![Untitled](/img/posts/RaceConditions/Untitled%209.png)
     
-4. Now that the attack has been executed, lets check the responses and search for 200 response codes. 
+- Now that the attack has been executed, lets check the responses and search for 200 response codes. 
     
     ![Untitled](/img/posts/RaceConditions/Untitled%2010.png)
     
-5. If we analyze this answer in the browser, we can see that we have been able to add to the cart 3 Jackets within the race window, so we exploited a multi endpoint race condition! :)
+- If we analyze this answer in the browser, we can see that we have been able to add to the cart 3 Jackets within the race window, so we exploited a multi endpoint race condition! :)
 
 ![Untitled](/img/posts/RaceConditions/Untitled%2011.png)

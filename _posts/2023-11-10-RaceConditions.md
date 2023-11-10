@@ -114,6 +114,6 @@ This means that we have to capture the requests that adds an item to the cart an
     
     ![Untitled](/img/posts/RaceConditions/Untitled%2010.png)
     
-3. If we analyze this answer in the browser, we can see that we have been able to add to the cart 3 Jackets within the race window, so we exploited a multi endpoint race condition!
+3. If we analyze this answer in the browser, we can see that we have been able to add to the cart 3 Jackets within the race window, so we exploited a multi endpoint race condition! :)
 
 ![Untitled](/img/posts/RaceConditions/Untitled%2011.png)

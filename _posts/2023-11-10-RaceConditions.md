@@ -57,7 +57,7 @@ If pause the proxy and go back to the webpage, we can see that now the moni redu
 
 
 > If you want to do a more complex attack or send more requests, you can use the Turbo Intruder extension with [this](https://github.com/PortSwigger/turbo-intruder/blob/master/resources/examples/race-single-packet-attack.py) python script
-{: .prompt-info]
+{: .prompt-info}
 
 ## **Multi-endpoint race condition**
 
@@ -77,7 +77,7 @@ The expected flow should be something like this:
 4. The server deduces that amount of money from the Store credit
 
 >Steps 3 and 4 could be swapped, but with this example the “race window” is bigger and easier to exemplify.
-{: .prompt-info]
+{: .prompt-info}
 
 In low code, the vulnerable implementation could be similar to this one: 
 
@@ -102,18 +102,18 @@ This means that we have to capture the requests that adds an item to the cart an
 
 ![Untitled](/img/posts/RaceConditions/Untitled%207.png)
 
-1. Now I will go to the shop and “Add to cart” a expensive item that I can’t afford. I will also capture the request, send it to repeater and drop it. It is important to drop the request since otherwise it will be added to the cart now and we need it to be added inside the “race window”
+2. Now I will go to the shop and “Add to cart” a expensive item that I can’t afford. I will also capture the request, send it to repeater and drop it. It is important to drop the request since otherwise it will be added to the cart now and we need it to be added inside the “race window”
 
 ![Untitled](/img/posts/RaceConditions/Untitled%208.png)
 
-1. In the repeater tab, I duplicated the requests so the chances that one of them is executed within the race window from the other are higher. As explained in the previous example, we will group all these requests and send them in parallel.  
+3. In the repeater tab, I duplicated the requests so the chances that one of them is executed within the race window from the other are higher. As explained in the previous example, we will group all these requests and send them in parallel.  
     
     ![Untitled](/img/posts/RaceConditions/Untitled%209.png)
     
-2. Now that the attack has been executed, lets check the responses and search for 200 response codes. 
+4. Now that the attack has been executed, lets check the responses and search for 200 response codes. 
     
     ![Untitled](/img/posts/RaceConditions/Untitled%2010.png)
     
-3. If we analyze this answer in the browser, we can see that we have been able to add to the cart 3 Jackets within the race window, so we exploited a multi endpoint race condition! :)
+5. If we analyze this answer in the browser, we can see that we have been able to add to the cart 3 Jackets within the race window, so we exploited a multi endpoint race condition! :)
 
 ![Untitled](/img/posts/RaceConditions/Untitled%2011.png)

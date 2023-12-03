@@ -10,7 +10,7 @@ render_with_liquid: false
 
 WebSockets is a communication protocol that provides full-duplex communication channels over a single, long-lived connection. It is designed to work over the same ports as HTTP and HTTPS (ports 80 and 443, respectively) and uses a similar handshake process to establish a connection. However, unlike traditional HTTP, which follows a request-response model, WebSockets enable bidirectional communication, allowing both the server and the client to send messages independently at any time.
 
-![Untitled](/img/post/Websockets/Untitled.webp)
+![Untitled](/img/posts/Websockets/Untitled.webp)
 
 WebSockets are particularly useful in situations where low-latency or server-initiated messages are required, such as real-time feeds of financial data.
 
@@ -65,7 +65,7 @@ It’s not like websockets present vulnerabilities itself, but it is another cha
 
 To test for them you will need to intercept the websocket message and change the content, for example to exploit a XSS attack: 
 
-![Untitled](/img/post/Websockets/Untitled.png)
+![Untitled](/img/posts/Websockets/Untitled.png)
 
 To exploit some vulnerabilities, you may need to intercept and manipulate the websocket handshake. For example there may be restrictions on the IP (you have been blocked by the server), so you could use the `X-Forwarded-For` header in the initial handshake to spoof the IP.
 

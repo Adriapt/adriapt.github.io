@@ -8,6 +8,8 @@ math: true
 render_with_liquid: false
 ---
 
+![Untitled](/img/posts/Clickjacking/Clickjacking%20portada.jpg)
+
 Clickjacking is a type of attack where a malicious website tricks a user into clicking something different from what the user perceives. The attacker overlays or hides the actual elements of a webpage with transparent or opaque layers containing deceptive content. This can lead the user to unwittingly interact with the hidden elements, often performing actions they did not intend to perform.
 
 >This attack differs from a CSRF attack in that the user is required to perform an action such as a button click whereas a CSRF attack depends upon forging an entire request without the user's knowledge or input.

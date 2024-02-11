@@ -1,13 +1,12 @@
 ---
 title: "Prototype Pollution"
-author: "Adria Pages Torruella"
+author: "Adria"
 date: 2024-02-11 17:30:00 +0800
 categories: [Web Vulnerabilities]
 tags: [Web,XSS]
 math: true
 render_with_liquid: false
 ---
-# Prototype Pollution
 
 ![prototype pollution.jpg](/img/posts/ProtoPoll/prototype_pollution.jpg)
 

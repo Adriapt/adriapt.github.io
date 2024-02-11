@@ -12,7 +12,7 @@ render_with_liquid: false
 
 ## JavaScript prototypes and inheritance
 
-JavaScript is a language model that uses prototypal inheritance. A JavaScritp object is a collection of `key:value` pairs (or properties). These properties can be data  or functions (also known as “methods”)
+JavaScript is a language model that uses prototypal inheritance. A JavaScritp object is a collection of `key:value` pairs (or properties). These properties can be data  or functions (also known as “methods”).
 
 For example, this object has some properties such as `username: "wiener"` and methods such as the `exampleMethod`: 
 
@@ -28,7 +28,7 @@ const user =  {
 
 This `user` object is a literal because it has been created using curly brace syntax to declare its properties. 
 
-In JavaScript, almost everything everything is an object and every object is linked to another object (its prototype). For example, every `string` is assigned by default to the `String.prototype` object. An object inherits all the properties of their prototype unless they overwrite some properties using the same “key”. The `String.prototype` object has the `toLowerCase()` method, so every string that you define in JavaScript can use this method. 
+In JavaScript, almost everything is an object and every object is linked to another object (its prototype). For example, every `string` is assigned by default to the `String.prototype` object. An object inherits all the properties of their prototype unless they overwrite some properties using the same “key”. The `String.prototype` object has the `toLowerCase()` method, so every string that you define in JavaScript can use this method. 
 
  When you try to access a property or method of an object, the engine first tries to access the object itself, then, if he doesn’t have a matching property, it references its property object. If you define `myObject` with only propertyC, you can access propertyA because its inherits it from the prototype. 
 
@@ -69,7 +69,7 @@ And then check the Object.prototype object in the Console, we can see that the `
 
 Once you have found a source that allows you to add a property, you need to find a gadget that you can use to craft an exploit. You can inspect the source code and search for used properties. 
 
-In this specific example, we can see in the JavaScript is the `transport_url`property from the `config`object and appending it to the DOM. This can be a potential XSS: 
+In this specific example, we can see in the JavaScript that the `transport_url` property from the `config` object is being appended into the DOM. This can be a potential XSS: 
 
 ![Untitled](/img/posts/ProtoPoll/Untitled%202.png)
 
@@ -129,8 +129,11 @@ Since there are backends like Node.js that use JavaScript, is also possible to f
 Server-side prototype pollution is challenging to detect compared to its client-side counterpart for several reasons:
 
 **1. No Source Code Access**: Accessing vulnerable JavaScript code in server-side environments is typically impossible, posing challenges in identifying sinks and potential gadget properties.
+
 **2. Lack of Developer Tools:** The absence of runtime object inspection in server-side environments, unlike client-side debugging with browser DevTools, makes it difficult to detect successful prototype pollution unless it visibly impacts the website's behavior.
+
 **3. The DoS Problem:** Polluting objects in server-side environments risks breaking application functionality or causing a denial-of-service (DoS) issue.
+
 **4. Pollution Persistence:** In contrast to browser testing, where changes can be easily reversed by refreshing the page, server-side prototype pollution changes endure throughout the entire lifetime of the Node process.
 
 `POST` or `PUT` requests that submit JSON data to  an application or API are prime candidates for this kind of behavior as it's common for servers to respond with a JSON representation of the new or updated object.

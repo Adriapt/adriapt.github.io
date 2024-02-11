@@ -115,7 +115,7 @@ We can use the “scan for gadgets” option to find exploits that could be used
 
 And successfully exploit the XSS: 
 
-![Untitled](Prototype%20Pollution%20bf1d1c00bbc6440ca3e0e2200009ce02/Untitled%2010.png)
+![Untitled](/img/posts/ProtoPoll/Untitled%2010.png)
 
 ## Prototype pollution via the constructor
 

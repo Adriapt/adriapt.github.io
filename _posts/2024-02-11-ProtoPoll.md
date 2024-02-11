@@ -7,8 +7,10 @@ tags: [Web,XSS]
 math: true
 render_with_liquid: false
 ---
-![prototype pollution.jpg](/img/posts/ProtoPoll/prototype_pollution.jpg)
 # Prototype Pollution
+
+![prototype pollution.jpg](/img/posts/ProtoPoll/prototype_pollution.jpg)
+
 ## JavaScript prototypes and inheritance
 
 JavaScript is a language model that uses prototypal inheritance. A JavaScritp object is a collection of `key:value` pairs (or properties). These properties can be data  or functions (also known as “methods”)

@@ -24,6 +24,7 @@ I love learning as much as I love transmitting this knowledge. I helped young st
 ![Diploma](/img/aboutme/diploma.png){: width="65" height="245" stylr="max-width: 200px" .left}
 # Certifications
 ***
+- **Burp Suite Certified Practitioner ([BSCP](https://portswigger.net/web-security/e/c/e8ad02501a3cd2a6?utm_source=office&utm_medium=email&utm_campaign=burp-prac-cert-pass-success&ps_source=office&ps_medium=email&ps_campaign=burp-prac-cert-pass-success&ps_content=308.1&tid=-r12TgQV3Y0z5ga2vyS63cU4_FIzy5UNM5aQ9OaffKt4N3c-LlGcFsAW9NOZI45l))**
 - **CompTIA Cybersecurity Analyst+ ([CySA+](https://www.comptia.org/certifications/cybersecurity-analyst))**
 
 ![Book](/img/aboutme/open-book.png){: width="65" height="245" stylr="max-width: 200px" .left}

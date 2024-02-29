@@ -3,7 +3,7 @@ title: "Prototype Pollution"
 author: "Adria"
 date: 2024-02-11 17:30:00 +0800
 categories: [Web Vulnerabilities]
-tags: [Web,XSS]
+tags: [Web,JS, XSS]
 math: true
 render_with_liquid: false
 ---

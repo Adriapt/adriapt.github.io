@@ -6,7 +6,10 @@ order: 4
 ![Suitcase](/img/aboutme/suitcase.png){: width="40" height="40" style="max-width: 100px" .left}
 # Professional Experience
 ***
-- ## **Since August 2022:** Group Security Analyst at [Zurich](https://www.zurich.es/)
+- ## **Since July 2024** Cyber Incident Response & Threat Hunting Consultant at [Servi Zurich](https://bcntdc.zurich.com/)
+Currently providing global services to the company by detecting and containing cybersecurity incidents & conducting threat hunting within network infrastructure and digital assets. 
+
+- ## **August 2022 - July 2024** Group Security Analyst at [Zurich](https://www.zurich.es/)
 Working with the Spain Group Information Security team from Zurich giving service to the whole business unit.
 Implementing and defining controls to enforce the company's policy such as IAM controls, PAM, hardening,
 vulnerability scanning and more.

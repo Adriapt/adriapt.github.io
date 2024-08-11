@@ -6,7 +6,7 @@ order: 4
 ![Suitcase](/img/aboutme/suitcase.png){: width="40" height="40" style="max-width: 100px" .left}
 # Professional Experience
 ***
-- ## **Since July 2024** Cyber Incident Response & Threat Hunting Consultant at [Servi Zurich](https://bcntdc.zurich.com/)
+- ## **Since July 2024** Cyber Incident Response & Threat Hunting Consultant at [ServiZurich](https://bcntdc.zurich.com/)
 Currently providing global services to the company by detecting and containing cybersecurity incidents & conducting threat hunting within network infrastructure and digital assets. 
 
 - ## **August 2022 - July 2024** Group Security Analyst at [Zurich](https://www.zurich.es/)

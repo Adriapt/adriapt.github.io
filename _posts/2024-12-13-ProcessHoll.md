@@ -11,7 +11,7 @@ render_with_liquid: false
 
 In this post we are going to study another process injection sub-technique called Process Hollowing. If you have a clear understanding of the structure of a PE (Portable Executable) file, this will be easy to understand.  If not, I recommend reading [this](https://blog.adriapt.xyz/posts/PEfiles/) other post first.
 
-![d0d6c113-2235-432e-ab32-ea20d8968573.webp](/img/posts/RefDll/d0d6c113-2235-432e-ab32-ea20d8968573.webp)
+![d0d6c113-2235-432e-ab32-ea20d8968573.webp](/img/posts/ProcessHollowing/d0d6c113-2235-432e-ab32-ea20d8968573.webp)
 
 ## Process Hollowing Basic Concepts
 
@@ -220,34 +220,34 @@ return 0;
 
 Lets execute the loader that we just created. We will se an output like this one: 
 
-![image.png](/img/posts/RefDll/image.png)
+![image.png](/img/posts/ProcessHollowing/image.png)
 
 If we open with an analysis tool like ***x64dbg*** the notepad.exe process, we can do some analysis. 
 If we go to the Memory Map tab, we can see that Indeed the PEB is in the `0x0000001487F98000` memory address. 
 
-![image.png](/img/posts/RefDll/image%201.png)
+![image.png](/img/posts/ProcessHollowing/image%201.png)
 
 The next step was to get the Image Base address that was at the 0x10 offset of the PEB (hence in `0x0000001487F98010` . If we look at the content in that address (8 bytes in little endian) we can see that it contains the `0x00007FF63C3B0000` which is the memory address where we will find the Image Base Address. 
 
-![image.png](/img/posts/RefDll/image%202.png)
+![image.png](/img/posts/ProcessHollowing/image%202.png)
 
 Once in that address, we first look at the `0x3c` offset to get the `e_lfanew` value which is `0x00000120`
 
-![image.png](/img/posts/RefDll/image%203.png)
+![image.png](/img/posts/ProcessHollowing/image%203.png)
 
 Now to get the RVA of the entry point we have to get the value of `0x00007FF63C3B0000` + `0x00000120`  + `0x28` and it is equal to `0x00007FF63C3B0148` . If we get the contents of that memory address we can see that the RVA is `0x000C59A0` : 
 
-![image.png](/img/posts/RefDll/image%204.png)
+![image.png](/img/posts/ProcessHollowing/image%204.png)
 
 Finally, to get the correct memory address of the Entry Point we have to add this last obtained value to the base image address:  `0x00007FF63C3B0000` + `0x000C59A0` = `0x**7FF63C4759A0**` which is the same address that the code returned. 
 
 To prove that the shellcode (`NOP` in this example) has been injected there, we will check what info is in memory starting from that address: 
 
-![image.png](/img/posts/RefDll/image%205.png)
+![image.png](/img/posts/ProcessHollowing/image%205.png)
 
 We see a lot of 0x90, which is the Opcode of the NOP instruction (does nothing)
 
-![image.png](/img/posts/RefDll/image%206.png)
+![image.png](/img/posts/ProcessHollowing/image%206.png)
 
 So we can confirm that the code has been correctly injected in the correct memory address. 
 

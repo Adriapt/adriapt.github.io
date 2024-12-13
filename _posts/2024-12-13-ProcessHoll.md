@@ -1,7 +1,7 @@
 ---
-title: "Reflected DLL Injection"
+title: "Process Hollowing"
 author: "Adria"
-date: 2024-08-25 17:30:00 +0800
+date: 2024-12-13 17:30:00 +0800
 categories: [Theory]
 tags: [Windows,Dll,Malware]
 math: true

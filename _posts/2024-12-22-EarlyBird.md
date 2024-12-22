@@ -11,7 +11,7 @@ render_with_liquid: false
 
 Asynchronous Procedure Calls (APC) Injection is an alternative to inject code without having to create another thread. 
 
-![A cartoon-style illustration showing a bird inside a partially broken egg in a natural environment, hacking. The bird peeks its head and one wing out .webp](img/posts/EarlyBird/Bird)
+![A cartoon-style illustration showing a bird inside a partially broken egg in a natural environment, hacking. The bird peeks its head and one wing out .webp](/img/posts/EarlyBird/Bird)
 
 # What is an APC
 
